@@ -32,6 +32,9 @@ def create_reservation(guest_id,room_id,check_in_date, check_out_time, status= "
     db.refresh(reservation)
     return reservation
 
+def list_reservations():
+    return db.query(Reservation).all()
+
 def create_payment(reservation_id, amount, payment_method, payment_date, guest_id):
     payment = Payment(
         reservation_id=reservation_id, amount=amount, payment_method=payment_method, payment_date=payment_date, guest_id=guest_id
@@ -40,3 +43,6 @@ def create_payment(reservation_id, amount, payment_method, payment_date, guest_i
     db.commit()
     db.refresh(payment)
     return payment
+
+def list_payments():
+    return db.query(Payment).all()
