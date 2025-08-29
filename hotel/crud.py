@@ -35,6 +35,15 @@ def create_reservation(guest_id,room_id,check_in_date, check_out_time, status= "
 def list_reservations():
     return db.query(Reservation).all()
 
+def update_reservation(reservation_id, **kwargs):
+    reservation = db.query(Reservation).filter(Reservation.reservation_id == reservation_id).first()
+    if reservation:
+        for key, value in kwargs.items():
+            setattr(reservation, key, value)
+        db.commit()
+        db.refresh(reservation)
+    return reservation
+
 def create_payment(reservation_id, amount, payment_method, payment_date, guest_id):
     payment = Payment(
         reservation_id=reservation_id, amount=amount, payment_method=payment_method, payment_date=payment_date, guest_id=guest_id
